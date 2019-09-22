@@ -1,0 +1,56 @@
+plugins {
+  id "com.gradle.plugin-publish" version "0.9.4"
+}
+
+ext {
+    user = 'paulzfm'
+    name = 'gradle-plugin-ll1pg'
+    pluginDescription = 'Gradle plugin for using LL1-Parser-Gen'
+    scmUrl = 'https://github.com/' + user + '/' + name
+    scmConnection = 'scm:git:git://github.com/' + user + '/' + name + '.git'
+    scmDeveloperConnection = 'scm:git:git://github.com/' + user + '/' + name + '.git'
+}
+
+group = 'decaf.tools.gradle.plugin'
+version = 'decaf-course-19-fall'
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: "com.gradle.plugin-publish"
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+configurations {
+  wagon
+}
+
+dependencies {
+  compile gradleApi()
+  wagon 'org.apache.maven.wagon:wagon-ssh-external:2.10'
+}
+
+task javadocJar(type: Jar, dependsOn: classes) {
+  from javadoc
+  classifier 'javadoc'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  from sourceSets.main.allSource
+  classifier 'sources'
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+
+if (project.hasProperty('signing.keyId')) {
+  signing {
+    sign configurations.archives
+  }
+}
+
+apply from: 'gradle/publish.gradle'
