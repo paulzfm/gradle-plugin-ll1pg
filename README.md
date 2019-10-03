@@ -1,3 +1,4 @@
 # gradle-plugin-ll1pg
 
-A Gradle plugin for [LL1-Parser-Gen](https://github.com/paulzfm/LL1-Parser-Gen)
+The first release version on plugins.gradle cannot work.
+We plan to move this project into [ll1pg](https://github.com/paulzfm/ll1pg) and publish a new version soon!
